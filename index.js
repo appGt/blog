@@ -13,7 +13,7 @@ marked.setOptions({
   tables: true,
   breals: false,
   pedantic: false,
-  sanitizez: false,
+  sanitize: true, //XSS过滤
   smartLists: true,
   smartypants: false
 })
@@ -36,7 +36,7 @@ app.use(bodyParser())
 app.keys = ['zzy_blog']
 app.use(session({
   ket: CONFIG.session.key,
-  maxAge: CONFIG.session.maxAge
+  maxAge: 1800000
 }, app))
 //消息提示中间件
 app.use(flash())
