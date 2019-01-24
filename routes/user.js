@@ -36,7 +36,8 @@ module.exports = {
     //存储数据库
     try {
       const result = await UserModel.create(user)
-      return ctx.redirect('/signup')
+      ctx.flash = { success: '注册成功' }
+      return ctx.redirect('/signin')
     } catch (err) {
       if (err.message.match('duplicate key')) {
         ctx.flash = { warning: '用户已存在' }

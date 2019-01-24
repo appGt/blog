@@ -30,6 +30,7 @@ module.exports = (app) => {
   router.get('/signout', isLoginUser, require('./user').signout)
   //文章增加删除
   router.get('/', require('./posts').index)
+  router.get('/posts', require('./posts').index)
   router.get('/posts/new', isLoginUser, require('./posts').create)
   router.post('/posts/new', isLoginUser, require('./posts').create)
   router.get('/posts/:id', require('./posts').show)
@@ -42,10 +43,10 @@ module.exports = (app) => {
   router.get('/comments/:id/delete', isLoginUser, require('./comments').destroy)
 
   //分类管理
-  router.get('/category', isAdmin, require('./category').create)
+  router.get('/category', isAdmin, require('./category').list)
   router.get('/category/new', isAdmin, require('./category').create)
   router.post('/category/new', isAdmin, require('./category').create)
-  router.get('/category/new', isAdmin, require('./category').destroy)
+  router.get('/category/:id/delete', isAdmin, require('./category').destroy)
 
 
 

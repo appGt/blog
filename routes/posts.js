@@ -1,5 +1,6 @@
 const PostModel = require('../models/post')
 const CommentModel = require('../models/comment')
+const CategoryModel = require('../models/category')
 
 module.exports = {
   //首页
@@ -11,7 +12,7 @@ module.exports = {
       cid = category._id
     }
     const query = cid ? { category: cid } : {}
-    const posts = await PostModel.find({query})
+    const posts = await PostModel.find(query)
     await ctx.render('index', {
       title: 'JS之禅',
       desc: '2222222',

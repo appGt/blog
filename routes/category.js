@@ -8,7 +8,8 @@ module.exports = {
       return
     }
     await CategoryModel.create(ctx.request.body)
-    ctx.redirect('./category')
+    ctx.flash = { success: '添加分类成功' }
+    ctx.redirect('/category')
   },
 
   async list(ctx, next) {
@@ -20,7 +21,7 @@ module.exports = {
   },
 
   async destroy(ctx, next) {
-    await CategoryModel.findByIdAndDelete(ctx.params.id)
+    await CategoryModel.findByIdAndRemove(ctx.params.id)
     ctx.flash = { success: '删除分类成功' }
     ctx.redirect('/category')
   }
