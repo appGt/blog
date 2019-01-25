@@ -8,15 +8,31 @@ module.exports = {
     const cname = ctx.query.c
     let cid
     if (cname) {
+      //查询分类id
       const category = await CategoryModel.findOne({ name: cname })
       cid = category._id
     }
+    // 根据是否有分类来控制查询语句
     const query = cid ? { category: cid } : {}
-    const posts = await PostModel.find(query)
+    const pageSize = 5
+    const currentPage = parseInt(ctx.query.page) || 1
+    const allPostsCount = await PostModel.find(query).count()
+    const pageCount = Math.ceil(allPostsCount / pageSize)
+    const posts = await PostModel.find(query).skip((currentPage - 1) * pageSize).limit(pageSize)
+
+    const pageStart = currentPage -2 > 0 ? currentPage -2 : 1
+    const pageEnd = pageStart + 4 >= pageCount ? pageCount : pageStart +4
+    // 根据是否有分类来控制分页链接
+    const baseUrl = cname ? `${ctx.path}?c=${cname}&page=` : `${ctx.path}?page=`
     await ctx.render('index', {
       title: 'JS之禅',
       desc: '2222222',
-      posts
+      posts,
+      currentPage,
+      pageCount,
+      pageStart,
+      pageEnd,
+      baseUrl
     })
   },
 
